@@ -1210,10 +1210,11 @@ def speach(message):
             bot.send_sticker(message.chat.id, sti)            
         else:
             bot.send_message(message.chat.id, 'Я не знаю что ответить 😢')
-            
+    
+file_name = ""
 @bot.message_handler(content_types=['document'])
 def handle_docs_photo(message):
-    global flag, x, y
+    global flag, x, y, file_name
     if flag == 1:
         x += 1
         try:
@@ -1225,6 +1226,7 @@ def handle_docs_photo(message):
                 src_1 = 'C:/Users/StefFashka/Downloads/Bot/neuro/1/RC/' + message.document.file_name
                 with open(src_1, 'wb') as new_file:
                     new_file.write(downloaded_file)
+                file_name = src_1
                 bot.reply_to(message, "Записываю ⚙️")
                 bot.send_message(message.chat.id, 'Нужна ещё 1 картинка') 
                 
@@ -1237,7 +1239,7 @@ def handle_docs_photo(message):
                 bot.reply_to(message, "Отлично️")
                 sti = open('images/Loading.tgs', 'rb')
                 bot.send_sticker(message.chat.id, sti)
-                Second_AI(src_1, src_2)
+                Second_AI(file_name, src_2)
                 result_image = "C:/Users/StefFashka/Downloads/Bot/neuro/1/" + "result_" + str(counter) + ".jpg"
                 bot.send_photo(message.chat.id, result_image)
                 shutil.rmtree(path, ignore_errors=True)
